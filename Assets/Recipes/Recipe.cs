@@ -33,4 +33,36 @@ public class Recipe : MonoBehaviour
 			return false;
 		}
 	}
+
+	private List<GameObject> editorPlacedIngredients;
+	public void FillRecipe()
+	{
+		Clear();
+		for(int i = 0; i < PrefabIngredientsInOrder.Count; i++)
+		{
+			editorPlacedIngredients.Add(Instantiate(PrefabIngredientsInOrder[i], SpotsForIngredients[i]));
+		}
+	}
+
+	public void Clear()
+	{
+		if(editorPlacedIngredients != null)
+		{
+			foreach(GameObject placedIngredient in editorPlacedIngredients)
+			{
+				SafeDestroy(placedIngredient);
+			}
+		}
+		editorPlacedIngredients = new List<GameObject>();
+	}
+
+	public static T SafeDestroy<T>(T obj) where T : Object
+	{
+		if(Application.isEditor)
+			Object.DestroyImmediate(obj);
+		else
+			Object.Destroy(obj);
+
+		return null;
+	}
 }
