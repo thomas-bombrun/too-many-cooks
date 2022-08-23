@@ -24,6 +24,8 @@ public class Recipe : MonoBehaviour
 			if(currentStep == SpotsForIngredients.Count)
 			{
 				HUD.Singleton.DisplayText("Yeah !");
+				HUD.Singleton.AddScore();
+				Destroy(gameObject);
 			}
 			return true;
 		}
@@ -65,4 +67,5 @@ public class Recipe : MonoBehaviour
 
 		return null;
 	}
+
 }

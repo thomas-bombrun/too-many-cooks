@@ -6,7 +6,13 @@ public class HUD : MonoBehaviour
 {
 	[SerializeField]
 	private TMPro.TMP_Text debugText;
+	[SerializeField]
+	private TMPro.TMP_Text scoreText;
+	[SerializeField]
+	private TMPro.TMP_Text order;
 	public static HUD Singleton;
+
+	private int score = 0;
 
 	void Awake()
 	{
@@ -14,6 +20,7 @@ public class HUD : MonoBehaviour
 		{
 			Singleton = this;
 		}
+		scoreText.text = "" + score;
 	}
 
 	public void DisplayText(string textToDisplay)
@@ -26,6 +33,17 @@ public class HUD : MonoBehaviour
 	private void ClearText()
 	{
 		debugText.text = "";
+	}
+
+	public void AddScore()
+	{
+		score++;
+		scoreText.text = "" + score;
+	}
+
+	public void SetOrder(GameObject recipe)
+	{
+		order.text = "Next order : " + recipe.name;
 	}
 
 
