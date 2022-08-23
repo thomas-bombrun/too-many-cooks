@@ -2,78 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(CharacterController))]
 public class PlayerControl : MonoBehaviour
 {
-    public float inputThreshold;
-    public float speed;
-    public GameObject rightHand;
-    public float grabRadius;
+	public GameObject cookPrefab;
+	[Range(1, 10)]
+	public int cookCount = 1;
 
-    private Animator animator;
-    private CharacterController characterController;
-    private GameObject grabbedIngredient;
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-        characterController = GetComponent<CharacterController>();
-    }
+	List<CookControl> cooks;
+	int activeCookIndex = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        HandleControl();
-        HandleControlGrab();
-    }
+	void Start()
+	{
+		cooks = new List<CookControl>();
+		int cookPerLine = 3;
+		for (int i = 0; i < cookCount; i ++)
+		{
+			float cookXPosition = (i / cookPerLine) * 1.0f;
+			float cookZPosition = (i % cookPerLine) * 1.0f - 2.0f;
+			Vector3 cookPosition = new Vector3(cookXPosition, 0.0f, cookZPosition);
+			GameObject cook = Instantiate(cookPrefab, cookPosition, Quaternion.identity);
+			cooks.Add(cook.GetComponent<CookControl>());
+		}
+		SetActiveCook(0);
+	}
 
-    void HandleControl()
-    {
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInput = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(verticalInput) > inputThreshold || Mathf.Abs(horizontalInput) > inputThreshold)
-        {
-            animator.SetBool("isRunning", true);
-            Vector3 moveVector = new Vector3(verticalInput, 0, -horizontalInput) * speed;
-            characterController.Move(moveVector);
-            transform.LookAt(this.transform.position + moveVector);
-        }
-        else
-        {
-            animator.SetBool("isRunning", false);
-        }
-    }
+	public void SetActiveCook(int cookIndex)
+	{
+		cooks[activeCookIndex].SetInactive();
+		cooks[cookIndex].SetActive();
+		activeCookIndex = cookIndex;
+	}
 
-    void HandleControlGrab()
-    {
-        if (!Input.GetButtonDown("Fire1"))
-        {
-            return;
-        }
-        Debug.Log(grabbedIngredient);
-        if (grabbedIngredient == null)
-        {
-            Collider[] ingredients = Physics.OverlapSphere(transform.position, grabRadius, 1 << 6); // 1<<6 means layer number 6, layer number 6 is Ingredients. Great API, Unity !
-            foreach (Collider ingredient in ingredients)
-            {
-                grabbedIngredient = ingredient.gameObject;
-                grabbedIngredient.transform.parent = rightHand.transform;
-                grabbedIngredient.transform.localPosition = Vector3.zero;
-                grabbedIngredient.transform.rotation = Quaternion.identity;
-                return;
-            }
-        }
-        else
-        {
-            Collider[] plates = Physics.OverlapSphere(transform.position, grabRadius, 1 << 7); // 1<<7 means layer number 7, layer number 7 is Plates. Great API, Unity !
-            foreach (Collider plate in plates)
-            {
-                grabbedIngredient.transform.parent = plate.transform;
-                grabbedIngredient.transform.localPosition = Vector3.zero;
-                grabbedIngredient.transform.rotation = Quaternion.identity;
-                grabbedIngredient = null;
-                return;
-            }
-        }
-    }
+	private void Update() {
+        if (Input.GetButtonDown("NextCook"))
+			ActivateNextCook();
+	}
+
+	private void ActivateNextCook()
+	{
+		SetActiveCook((activeCookIndex + 1) % cookCount);
+	}
 }
