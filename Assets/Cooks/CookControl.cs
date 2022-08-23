@@ -69,6 +69,7 @@ public class CookControl : MonoBehaviour
 				}
 				else
 				{
+					animator.SetBool("isCarrying", true);
 					grabbedIngredient = closestIngredient;
 					grabbedIngredient.transform.parent = rightHand.transform;
 					grabbedIngredient.transform.localPosition = Vector3.zero;
@@ -87,6 +88,7 @@ public class CookControl : MonoBehaviour
 					bool ingredientwasAdded = recipe.AddIngredient(grabbedIngredient);
 					if(ingredientwasAdded)
 					{
+						animator.SetBool("isCarrying", false);
 						grabbedIngredient = null;
 					}
 				}
@@ -98,6 +100,7 @@ public class CookControl : MonoBehaviour
 					}
 					else
 					{
+						animator.SetBool("isCarrying", false);
 						grabbedIngredient.transform.parent = plate.transform;
 						grabbedIngredient.transform.localPosition = Vector3.zero;
 						grabbedIngredient.transform.localRotation = Quaternion.identity;
