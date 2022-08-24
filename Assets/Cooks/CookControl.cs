@@ -91,8 +91,7 @@ public class CookControl : MonoBehaviour
 					bool ingredientwasAdded = recipe.AddIngredient(grabbedIngredient);
 					if(ingredientwasAdded)
 					{
-						animator.SetBool("isCarrying", false);
-						grabbedIngredient = null;
+						UnlinkGrabbedIngredient();
 					}
 				}
 				else
@@ -103,11 +102,10 @@ public class CookControl : MonoBehaviour
 					}
 					else
 					{
-						animator.SetBool("isCarrying", false);
 						grabbedIngredient.transform.parent = plate.transform;
 						grabbedIngredient.transform.localPosition = Vector3.zero;
 						grabbedIngredient.transform.localRotation = Quaternion.identity;
-						grabbedIngredient = null;
+						UnlinkGrabbedIngredient();
 					}
 				}
 			}
@@ -123,29 +121,38 @@ public class CookControl : MonoBehaviour
 		grabbedIngredient.transform.localRotation = Quaternion.identity;
 	}
 
+	public GameObject GetGrabbedIngredient()
+	{
+		return grabbedIngredient;
+	}
+
+	// Caller must handle what happens to the ingredient before calling UnlinkGrabbedIngredient
+	public void UnlinkGrabbedIngredient()
+	{
+		grabbedIngredient = null;
+		animator.SetBool("isCarrying", false);
+	}
+
 	void HandleWork()
 	{
 		if(!Input.GetButtonDown("Work"))
 		{
 			return;
 		}
-		if(grabbedIngredient != null)
+		GameObject station = ClosestInLayer(8);
+		if(station == null)
 		{
+			Debug.Log("didn't find a station to work");
 			return;
 		}
-		GameObject machine = ClosestInLayer(8);
-		if(machine == null)
+		if(station.tag != tag)
 		{
-			return;
-		}
-		if(machine.tag != tag)
-		{
-			HUD.Singleton.DisplayText("You can't do this task ! " + machine.name + " is " + machine.tag + " but cook is " + tag);
+			HUD.Singleton.DisplayText("You can't do this task ! " + station.name + " is " + station.tag + " but cook is " + tag);
 			return;
 		}
 		animator.SetBool("isRunning", false);
 		animator.SetBool("isWorking", true);
-		float workTime = machine.GetComponent<Station>().Operate(this);
+		float workTime = station.GetComponent<Station>().Operate(this);
 		Invoke("WorkDone", workTime);
 	}
 
