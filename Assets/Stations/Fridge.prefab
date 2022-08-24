@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3cd3cc8c4ec5247ae3d69d049d6972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workDuration: 10
+  workDuration: 2.5
   prefabToSpawn: {fileID: 1486702799407751546, guid: 9ace88532bf4bf1419fbd07ec0892583, type: 3}
 --- !u!1 &1605252245518851522
 GameObject:
