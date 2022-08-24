@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UncookedPatty
       objectReference: {fileID: 0}
+    - target: {fileID: 5183550724105806828, guid: 7ece812a0b5b56a4490976d7413a29b3, type: 3}
+      propertyPath: m_TagString
+      value: Red
+      objectReference: {fileID: 0}
     - target: {fileID: 5183550724105806829, guid: 7ece812a0b5b56a4490976d7413a29b3, type: 3}
       propertyPath: m_RootOrder
       value: 0

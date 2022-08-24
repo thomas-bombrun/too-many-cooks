@@ -69,10 +69,8 @@ public class CookControl : MonoBehaviour
 			{
 				if(closestIngredient.tag != tag)
 				{
-					if(closestIngredient.tag != "Untagged")
-					{
-						HUD.Singleton.DisplayText("You can't grab that ! Ingredient is " + closestIngredient.tag + " but cook is " + tag);
-					}
+					HUD.Singleton.DisplayText("You can't grab that ! Ingredient is " + closestIngredient.tag + " but cook is " + tag);
+					return;
 				}
 				else
 				{
