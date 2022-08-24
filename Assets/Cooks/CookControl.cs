@@ -10,6 +10,7 @@ public class CookControl : MonoBehaviour
 	public float speed;
 	public GameObject rightHand;
 	public float grabRadius;
+	public GameObject activeIndicator;
 
 	private Animator animator;
 	private CharacterController characterController;
@@ -27,13 +28,19 @@ public class CookControl : MonoBehaviour
 	{
 		if(isActive)
 		{
-			HandleControl();
-			HandleControlGrab();
+			HandleMovement();
+			HandleGrab();
+			HandleWork();
 		}
 	}
 
-	void HandleControl()
+	void HandleMovement()
 	{
+		if(animator.GetBool("isWorking"))
+		{
+			return;
+		}
+
 		float verticalInput = Input.GetAxis("Vertical");
 		float horizontalInput = Input.GetAxis("Horizontal");
 		if(Mathf.Abs(verticalInput) > inputThreshold || Mathf.Abs(horizontalInput) > inputThreshold)
@@ -49,7 +56,7 @@ public class CookControl : MonoBehaviour
 		}
 	}
 
-	void HandleControlGrab()
+	void HandleGrab()
 	{
 		if(!Input.GetButtonDown("Fire1"))
 		{
@@ -69,11 +76,7 @@ public class CookControl : MonoBehaviour
 				}
 				else
 				{
-					animator.SetBool("isCarrying", true);
-					grabbedIngredient = closestIngredient;
-					grabbedIngredient.transform.parent = rightHand.transform;
-					grabbedIngredient.transform.localPosition = Vector3.zero;
-					grabbedIngredient.transform.localRotation = Quaternion.identity;
+					GrabIngredient(closestIngredient);
 				}
 			}
 		}
@@ -111,6 +114,45 @@ public class CookControl : MonoBehaviour
 		}
 	}
 
+	public void GrabIngredient(GameObject ingredient)
+	{
+		animator.SetBool("isCarrying", true);
+		grabbedIngredient = ingredient;
+		grabbedIngredient.transform.parent = rightHand.transform;
+		grabbedIngredient.transform.localPosition = Vector3.zero;
+		grabbedIngredient.transform.localRotation = Quaternion.identity;
+	}
+
+	void HandleWork()
+	{
+		if(!Input.GetButtonDown("Work"))
+		{
+			return;
+		}
+		if(grabbedIngredient != null)
+		{
+			return;
+		}
+		GameObject machine = ClosestInLayer(8);
+		if(machine == null)
+		{
+			return;
+		}
+		if(machine.tag != tag)
+		{
+			HUD.Singleton.DisplayText("You can't do this task ! " + machine.name + " is " + machine.tag + " but cook is " + tag);
+			return;
+		}
+		animator.SetBool("isRunning", false);
+		animator.SetBool("isWorking", true);
+		float workTime = machine.GetComponent<Station>().Operate(this);
+		Invoke("WorkDone", workTime);
+	}
+
+	void WorkDone()
+	{
+		animator.SetBool("isWorking", false);
+	}
 
 	public GameObject ClosestInLayer(int layerIndex)
 	{
@@ -131,11 +173,13 @@ public class CookControl : MonoBehaviour
 
 	public void SetActive()
 	{
+		activeIndicator.active = true;
 		isActive = true;
 	}
 
 	public void SetInactive()
 	{
+		activeIndicator.active = false;
 		if(animator != null)
 			animator.SetBool("isRunning", false);
 		isActive = false;
