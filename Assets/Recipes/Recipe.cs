@@ -36,26 +36,24 @@ public class Recipe : MonoBehaviour
 		}
 	}
 
-	private List<GameObject> editorPlacedIngredients;
 	public void FillRecipe()
 	{
 		Clear();
 		for(int i = 0; i < PrefabIngredientsInOrder.Count; i++)
 		{
-			editorPlacedIngredients.Add(Instantiate(PrefabIngredientsInOrder[i], SpotsForIngredients[i]));
+			Instantiate(PrefabIngredientsInOrder[i], SpotsForIngredients[i]);
 		}
 	}
 
 	public void Clear()
 	{
-		if(editorPlacedIngredients != null)
+		foreach(Transform ingredientSpot in SpotsForIngredients)
 		{
-			foreach(GameObject placedIngredient in editorPlacedIngredients)
+			for(int i = 0; i < ingredientSpot.childCount; i++)
 			{
-				SafeDestroy(placedIngredient);
+				SafeDestroy(ingredientSpot.GetChild(i).gameObject);
 			}
 		}
-		editorPlacedIngredients = new List<GameObject>();
 	}
 
 	public static T SafeDestroy<T>(T obj) where T : Object
