@@ -1599,6 +1599,10 @@ PrefabInstance:
       propertyPath: ingredientPrefab
       value: 
       objectReference: {fileID: 8704144262196292499, guid: c9566726b5f8b4047b5afee3a227dda6, type: 3}
+    - target: {fileID: 3112603564678271536, guid: 2e874fcbf683e364f95563ca14351cdb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b02ec15e1c7616047b646e08f9da5909, type: 2}
     - target: {fileID: 3473062577287525349, guid: 2e874fcbf683e364f95563ca14351cdb, type: 3}
       propertyPath: m_Name
       value: ingredientSpawner
