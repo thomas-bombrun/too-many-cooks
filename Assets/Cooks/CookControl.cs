@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
@@ -11,6 +12,8 @@ public class CookControl : MonoBehaviour
 	public GameObject rightHand;
 	public float grabRadius;
 	public GameObject activeIndicator;
+	public GameObject countdown;
+	public Image countdownImage;
 
 	private Animator animator;
 	private CharacterController characterController;
@@ -21,6 +24,9 @@ public class CookControl : MonoBehaviour
 	{
 		animator = GetComponent<Animator>();
 		characterController = GetComponent<CharacterController>();
+		countdownImage.fillMethod = Image.FillMethod.Radial360;
+		countdownImage.fillAmount = 0;
+		countdown.SetActive(false);
 	}
 
 	// Update is called once per frame
@@ -151,11 +157,20 @@ public class CookControl : MonoBehaviour
 		animator.SetBool("isRunning", false);
 		animator.SetBool("isWorking", true);
 		float workTime = station.GetComponent<Station>().Operate(this);
-		Invoke("WorkDone", workTime);
+		StartCoroutine(WaitForWork(workTime));
 	}
 
-	void WorkDone()
+	IEnumerator WaitForWork(float waitTime)
 	{
+		countdown.SetActive(true);
+		float startTime = Time.time;
+		while(Time.time < startTime + waitTime)
+		{
+			yield return 0; // wait 1 frame
+			countdownImage.fillAmount = (Time.time - startTime) / (waitTime);
+		}
+		countdownImage.fillAmount = 0;
+		countdown.SetActive(false);
 		animator.SetBool("isWorking", false);
 	}
 
@@ -178,13 +193,13 @@ public class CookControl : MonoBehaviour
 
 	public void SetActive()
 	{
-		activeIndicator.active = true;
+		activeIndicator.SetActive(true);
 		isActive = true;
 	}
 
 	public void SetInactive()
 	{
-		activeIndicator.active = false;
+		activeIndicator.SetActive(false);
 		if(animator != null)
 			animator.SetBool("isRunning", false);
 		isActive = false;
