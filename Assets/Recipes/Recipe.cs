@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Recipe : MonoBehaviour
 {
 	public List<GameObject> PrefabIngredientsInOrder;
 	public List<Transform> SpotsForIngredients;
 
-	[SerializeField]
-	private int currentStep;
+	[SerializeField] private int currentStep;
+
+	public UnityEvent recipeDone;
 
 
 	///<returns>Wheter the ingredient was accepted or not.</returns>
@@ -23,6 +25,7 @@ public class Recipe : MonoBehaviour
 			currentStep++;
 			if(currentStep == SpotsForIngredients.Count)
 			{
+				recipeDone.Invoke();
 				HUD.Singleton.DisplayText("Yeah !");
 				HUD.Singleton.AddScore();
 				Destroy(gameObject);

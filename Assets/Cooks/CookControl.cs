@@ -20,6 +20,11 @@ public class CookControl : MonoBehaviour
 	private GameObject grabbedIngredient;
 
 	private bool isActive = false;
+
+	void Awake()
+	{
+		activeIndicator.SetActive(false);
+	}
 	void Start()
 	{
 		animator = GetComponent<Animator>();

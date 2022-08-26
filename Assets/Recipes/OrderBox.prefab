@@ -141,6 +141,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3289052410355397932}
   - component: {fileID: 2605448964534603802}
+  - component: {fileID: -8506266162598361658}
   m_Layer: 0
   m_Name: OrderBox
   m_TagString: Untagged
@@ -184,6 +185,18 @@ MonoBehaviour:
   showCaseRecipePosition: {fileID: 785455197838435509}
   ShowcaseCamera: {fileID: 4756555766811271432}
   ShowcaseProjection: {fileID: 4752732704896054751}
+--- !u!114 &-8506266162598361658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063614730590635201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90932b93bf90327478a40f2b095dd15f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4301245274622442883
 GameObject:
   m_ObjectHideFlags: 0

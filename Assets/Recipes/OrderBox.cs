@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(LevelManager))]
 public class OrderBox : MonoBehaviour
 {
 	public List<GameObject> Recipes;
-	private int recipeIndex = 0;
+	private int nextRecipeIndex = 0;
 	public Transform recipePosition;
 	public Transform showCaseRecipePosition;
 
@@ -15,35 +16,44 @@ public class OrderBox : MonoBehaviour
 	void Start()
 	{
 		ShowcaseCamera.targetTexture = new RenderTexture(512, 512, 16);
-		SpawnRecipe();
+		SpawnNextRecipe();
 	}
 
 	void Update()
 	{
 		if(recipePosition.childCount == 0)
 		{
-			SpawnRecipe();
+			SpawnNextRecipe();
 		}
 	}
 
-	void SpawnRecipe()
+	void SpawnNextRecipe()
 	{
-		GameObject recipePrefab = Recipes[recipeIndex];
-		recipeIndex++;
-		if(recipeIndex >= Recipes.Count)
-		{
-			recipeIndex = 0;
-		}
-		//HUD.Singleton.SetOrder(recipePrefab);
+		GameObject recipePrefab = Recipes[nextRecipeIndex];
+		nextRecipeIndex++;
+
 		if(showCaseRecipePosition.childCount > 0)
 		{
-			// If we "Destroy", the previous recipe is not yet deleted when we take the next screenshot
-			DestroyImmediate(showCaseRecipePosition.GetChild(0).gameObject);
+			DestroyImmediate(showCaseRecipePosition.GetChild(0).gameObject); // If we "Destroy", the previous recipe is not yet deleted when we take the next screenshot
 		}
-		Instantiate(recipePrefab, recipePosition);
+		GameObject recipe = Instantiate(recipePrefab, recipePosition);
+		recipe.GetComponent<Recipe>().recipeDone.AddListener(RecipeIsDone);
+		// Showcase
 		GameObject recipeShowcase = Instantiate(recipePrefab, showCaseRecipePosition);
 		recipeShowcase.GetComponent<Recipe>().FillRecipe();
 		TakeScreenshot();
+	}
+
+	void RecipeIsDone()
+	{
+		if(nextRecipeIndex >= Recipes.Count)
+		{
+			this.gameObject.GetComponent<LevelManager>().LoadNextLevel();
+		}
+		else
+		{
+			SpawnNextRecipe();
+		}
 	}
 
 	private void TakeScreenshot()
