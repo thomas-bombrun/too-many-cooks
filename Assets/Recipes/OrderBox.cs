@@ -110,7 +110,6 @@ public class OrderBox : MonoBehaviour
 		RenderTexture.active = currentRT;
 
 		ShowcaseProjection.texture = image;
-		Debug.Log("Updated image");
 	}
 
 	private void SetIngredientColorInShowcase(int ingredientIndex)
