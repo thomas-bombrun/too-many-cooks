@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,10 +21,6 @@ public class OrderBox : MonoBehaviour
 		SpawnNextRecipe();
 	}
 
-	void Update()
-	{
-	}
-
 	void SpawnNextRecipe()
 	{
 		GameObject recipePrefab = Recipes[nextRecipeIndex];
@@ -40,7 +35,23 @@ public class OrderBox : MonoBehaviour
 		audioSource.Play();
 		// Showcase
 		GameObject recipeShowcase = Instantiate(recipePrefab, showCaseRecipePosition);
+		// Move elements of recipe for better visualization
+		Vector3 recipeCenterPosition = new Vector3(0.0f, 0.0f, 0.0f);
+		float recipeHeight = 0.0f;
+		float recipeWidth = 0.3f;
 		recipeShowcase.GetComponent<Recipe>().FillRecipe();
+		int childIndex = 0;
+		foreach (Transform child in recipeShowcase.transform) {
+			float xDelta = (2 * (childIndex % 2) - 1) * 0.08f;
+			float yDelta = childIndex * 0.05f;
+        	child.position += new Vector3(0.0f, yDelta, xDelta);
+			childIndex++;
+
+			recipeCenterPosition += child.position / recipeShowcase.transform.childCount;
+			recipeHeight += yDelta + 0.02f;
+    	}
+		ShowcaseCamera.transform.LookAt(recipeCenterPosition);
+		ShowcaseCamera.orthographicSize = Mathf.Max(recipeHeight, recipeWidth);
 		TakeScreenshot();
 	}
 
