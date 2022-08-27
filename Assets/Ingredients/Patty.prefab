@@ -55,11 +55,11 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 30ff5d88b88380945865d378bc5f73a8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 60b0b16e4faacbd47936f8443541c7b4, type: 2}
+      objectReference: {fileID: 2100000, guid: eb94181741c00854690a38bf17d94332, type: 2}
     - target: {fileID: -7511558181221131132, guid: 30ff5d88b88380945865d378bc5f73a8, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 872d401929646e144bc6e55899bed4f1, type: 2}
+      objectReference: {fileID: 2100000, guid: fafaa75a779390a58a7c0a51b755c128, type: 2}
     - target: {fileID: 919132149155446097, guid: 30ff5d88b88380945865d378bc5f73a8, type: 3}
       propertyPath: m_Name
       value: meatPatty
