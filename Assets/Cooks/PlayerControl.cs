@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct CookSetup
+{
+	public Texture skin;
+	public string tag;
+	public Transform startingPlace;
+}
+
 public class PlayerControl : MonoBehaviour
 {
 	public GameObject cookPrefab;
-	public List<Texture> cooksSkins;
-	public List<string> cooksTags;
+	public List<CookSetup> cookSetups;
 
 	List<CookControl> cooks;
 	int activeCookIndex = 0;
@@ -14,15 +21,11 @@ public class PlayerControl : MonoBehaviour
 	void Start()
 	{
 		cooks = new List<CookControl>();
-		int cookPerLine = 3;
-		for(int i = 0; i < cooksSkins.Count; i++)
+		foreach(var cookSetup in cookSetups)
 		{
-			float cookXPosition = (i / cookPerLine) * 1.0f;
-			float cookZPosition = (i % cookPerLine) * 1.0f - 2.0f;
-			Vector3 cookPosition = new Vector3(cookXPosition, 0.0f, cookZPosition);
-			GameObject cook = Instantiate(cookPrefab, cookPosition, Quaternion.identity);
-			cook.GetComponentInChildren<SkinnedMeshRenderer>().material.SetTexture("_MainTex", cooksSkins[i]);
-			cook.tag = cooksTags[i];
+			GameObject cook = Instantiate(cookPrefab, cookSetup.startingPlace.position, cookSetup.startingPlace.rotation);
+			cook.GetComponentInChildren<SkinnedMeshRenderer>().material.SetTexture("_MainTex", cookSetup.skin);
+			cook.tag = cookSetup.tag;
 			cooks.Add(cook.GetComponent<CookControl>());
 		}
 		SetActiveCook(0);
@@ -43,6 +46,6 @@ public class PlayerControl : MonoBehaviour
 
 	private void ActivateNextCook()
 	{
-		SetActiveCook((activeCookIndex + 1) % cooksSkins.Count);
+		SetActiveCook((activeCookIndex + 1) % cookSetups.Count);
 	}
 }
