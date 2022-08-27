@@ -185,6 +185,7 @@ MonoBehaviour:
   showCaseRecipePosition: {fileID: 785455197838435509}
   ShowcaseCamera: {fileID: 4756555766811271432}
   ShowcaseProjection: {fileID: 4752732704896054751}
+  winClip: {fileID: 8300000, guid: ee3bf6b5ddc1b244dad180f7660a6c8b, type: 3}
 --- !u!114 &-8506266162598361658
 MonoBehaviour:
   m_ObjectHideFlags: 0

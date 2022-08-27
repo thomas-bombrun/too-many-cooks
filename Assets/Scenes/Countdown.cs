@@ -7,13 +7,17 @@ public class Countdown : MonoBehaviour
 	private TMPro.TMP_Text countdownText;
 	public float DurationInSeconds;
 	private float elapsedTime;
+	public static bool paused = true;
 	void Update()
 	{
-		elapsedTime += Time.deltaTime;
-		countdownText.text = "" + Mathf.Round(DurationInSeconds - elapsedTime);
-		if(elapsedTime > DurationInSeconds)
+		if(!paused)
 		{
-			LevelManager.LoadGameOver();
+			elapsedTime += Time.deltaTime;
+			countdownText.text = "" + Mathf.Round(DurationInSeconds - elapsedTime);
+			if(elapsedTime > DurationInSeconds)
+			{
+				LevelManager.LoadGameOver();
+			}
 		}
 	}
 }
