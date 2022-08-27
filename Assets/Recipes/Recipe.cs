@@ -13,6 +13,21 @@ public class Recipe : MonoBehaviour
 	[HideInInspector] public UnityEvent recipeDone;
 	private AudioSource ingredientAddedAudio;
 
+	public float flySpeed;
+	private bool isFlying;
+
+	void Update()
+	{
+		if(isFlying)
+		{
+			if(transform.position.y > 10)
+			{
+				Destroy(this.gameObject);
+			}
+			transform.position += new Vector3(0, Time.deltaTime * flySpeed, 0);
+		}
+	}
+
 	void Awake()
 	{
 		ingredientAddedAudio = GetComponent<AudioSource>();
@@ -33,7 +48,7 @@ public class Recipe : MonoBehaviour
 				recipeDone.Invoke();
 				HUD.Singleton.DisplayText("Yeah !");
 				HUD.Singleton.AddScore();
-				Destroy(gameObject);
+				isFlying = true;
 			}
 			else
 			{

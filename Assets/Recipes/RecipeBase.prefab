@@ -52,6 +52,7 @@ MonoBehaviour:
   recipeDone:
     m_PersistentCalls:
       m_Calls: []
+  flySpeed: 5
 --- !u!135 &408853151241164767
 SphereCollider:
   m_ObjectHideFlags: 0

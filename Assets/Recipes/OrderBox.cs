@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(LevelManager))]
 public class OrderBox : MonoBehaviour
 {
 	public List<GameObject> Recipes;
@@ -41,15 +40,16 @@ public class OrderBox : MonoBehaviour
 		float recipeWidth = 0.3f;
 		recipeShowcase.GetComponent<Recipe>().FillRecipe();
 		int childIndex = 0;
-		foreach (Transform child in recipeShowcase.transform) {
+		foreach(Transform child in recipeShowcase.transform)
+		{
 			float xDelta = (2 * (childIndex % 2) - 1) * 0.08f;
 			float yDelta = childIndex * 0.05f;
-        	child.position += new Vector3(0.0f, yDelta, xDelta);
+			child.position += new Vector3(0.0f, yDelta, xDelta);
 			childIndex++;
 
 			recipeCenterPosition += child.position / recipeShowcase.transform.childCount;
 			recipeHeight += yDelta + 0.02f;
-    	}
+		}
 		ShowcaseCamera.transform.LookAt(recipeCenterPosition);
 		ShowcaseCamera.orthographicSize = Mathf.Max(recipeHeight, recipeWidth);
 		TakeScreenshot();
