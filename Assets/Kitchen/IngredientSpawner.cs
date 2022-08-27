@@ -1,26 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class IngredientSpawner : MonoBehaviour
+public class IngredientSpawner : SpawningStation
 {
-	public GameObject ingredientPrefab;
+	public float spawningDelay = 1.0f;
 
-
-	void Start()
-	{
-		InvokeRepeating("SpawnIngredient", 0f, 5f);
+	private void Start() {
+		SpawnIngredient();
 	}
 
-
-
-	// Update is called once per frame
 	void SpawnIngredient()
 	{
 		if(transform.childCount == 0)
 		{
-			GameObject ingredient = Instantiate(ingredientPrefab, transform);
-			ingredient.name = ingredientPrefab.name;
+			GameObject ingredient = Instantiate(prefabToSpawn, transform);
+			ingredient.name = prefabToSpawn.name;
 		}
+	}
+
+	protected override void WorkDone(CookControl cook)
+	{
+		Invoke("SpawnIngredient", spawningDelay);
 	}
 }

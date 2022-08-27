@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawningStation : Station
@@ -10,6 +8,7 @@ public class SpawningStation : Station
 	{
 		return cook.GetGrabbedIngredient() == null;
 	}
+
 	protected override void WorkDone(CookControl cook)
 	{
 		GameObject ingredient = Instantiate(prefabToSpawn);

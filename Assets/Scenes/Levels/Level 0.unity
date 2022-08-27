@@ -1417,6 +1417,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 287843324}
     m_Modifications:
     - target: {fileID: -4872721610421812769, guid: 2e874fcbf683e364f95563ca14351cdb, type: 3}
+      propertyPath: prefabToSpawn
+      value: 
+      objectReference: {fileID: 8704144262196292499, guid: c9566726b5f8b4047b5afee3a227dda6, type: 3}
+    - target: {fileID: -4872721610421812769, guid: 2e874fcbf683e364f95563ca14351cdb, type: 3}
       propertyPath: ingredientPrefab
       value: 
       objectReference: {fileID: 8704144262196292499, guid: c9566726b5f8b4047b5afee3a227dda6, type: 3}

@@ -104,6 +104,9 @@ public class CookControl : MonoBehaviour
 				}
 				else
 				{
+					Station activatedStation = closestIngredient.transform.parent.GetComponent<Station>();
+					if (activatedStation != null)
+						activatedStation.Operate(this);
 					GrabIngredient(closestIngredient);
 				}
 			}
