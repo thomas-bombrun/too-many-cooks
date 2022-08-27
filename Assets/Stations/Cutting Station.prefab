@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -279889856195747044}
   m_Layer: 8
   m_Name: Cutting Station
-  m_TagString: Yellow
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,6 +51,8 @@ MonoBehaviour:
   possibleTransformations:
   - fromPrefab: {fileID: 717154241426821696, guid: a71227d67d588e54abe9dd28b2d53a94, type: 3}
     toPrefab: {fileID: 3188462362231912492, guid: 582adb7c9ea11db4fa62634247ab1390, type: 3}
+  - fromPrefab: {fileID: 6877133056304160068, guid: 05a13099492e88a4cbd05d3fa51e6719, type: 3}
+    toPrefab: {fileID: 2919791165459916148, guid: a016be51eda74cc4989af750e87a25be, type: 3}
 --- !u!65 &-279889856195747044
 BoxCollider:
   m_ObjectHideFlags: 0
