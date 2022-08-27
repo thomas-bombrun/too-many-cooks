@@ -17,7 +17,7 @@ public class CuttingStation : Station
 	public List<CuttingTransformation> possibleTransformations;
 	private CuttingTransformation currentTransformation;
 
-	protected override bool WorkCanBeStarted(CookControl cook)
+	public override bool WorkCanBeStarted(CookControl cook, bool dryRun = true)
 	{
 		if(IngredientSpot.transform.childCount == 0)
 		{

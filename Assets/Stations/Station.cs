@@ -6,7 +6,7 @@ public abstract class Station : MonoBehaviour
 	protected AudioSource operatingAudio;
 	public float workDuration;
 	protected abstract void WorkDone(CookControl cook);
-	protected virtual bool WorkCanBeStarted(CookControl cook)
+	public virtual bool WorkCanBeStarted(CookControl cook, bool dryRun = true)
 	{
 		return true;
 	}
@@ -18,7 +18,7 @@ public abstract class Station : MonoBehaviour
 
 	public float Operate(CookControl cook)
 	{
-		if(WorkCanBeStarted(cook))
+		if(WorkCanBeStarted(cook, dryRun: false))
 		{
 			if(operatingAudio != null)
 			{

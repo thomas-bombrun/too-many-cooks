@@ -4,8 +4,9 @@ public class SpawningStation : Station
 {
 	public GameObject prefabToSpawn;
 
-	protected override bool WorkCanBeStarted(CookControl cook)
+	public override bool WorkCanBeStarted(CookControl cook, bool dryRun = true)
 	{
+		Debug.Log(cook.GetGrabbedIngredient());
 		return cook.GetGrabbedIngredient() == null;
 	}
 

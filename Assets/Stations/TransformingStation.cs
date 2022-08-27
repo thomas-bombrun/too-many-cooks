@@ -7,7 +7,7 @@ public class TransformingStation : Station
 	public GameObject prefabToTransform;
 	public GameObject prefabResult;
 
-	override protected bool WorkCanBeStarted(CookControl cook)
+	public override bool WorkCanBeStarted(CookControl cook, bool dryRun = true)
 	{
 		GameObject ingredient = cook.GetGrabbedIngredient();
 		if(ingredient == null)
@@ -18,13 +18,19 @@ public class TransformingStation : Station
 		if(ingredient.name == prefabToTransform.name)
 		{
 			Debug.Log("transforming ingredient");
-			cook.UnlinkGrabbedIngredient();
-			Destroy(ingredient);
+			if(!dryRun)
+			{
+				cook.UnlinkGrabbedIngredient();
+				Destroy(ingredient);
+			}
 			return true;
 		}
 		else
 		{
-			HUD.Singleton.DisplayText("Wrong ingredient !\nExpected " + prefabToTransform.name + " but got " + ingredient.name);
+			if(!dryRun)
+			{
+				HUD.Singleton.DisplayText("Wrong ingredient !\nExpected " + prefabToTransform.name + " but got " + ingredient.name);
+			}
 			return false;
 		}
 	}

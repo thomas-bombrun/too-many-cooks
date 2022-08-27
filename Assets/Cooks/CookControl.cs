@@ -174,7 +174,6 @@ public class CookControl : MonoBehaviour
 		GameObject station = ClosestInLayer(8);
 		if(station == null)
 		{
-			Debug.Log("didn't find a station to work");
 			return false;
 		}
 		if(station.tag != tag && station.tag != "Untagged")
@@ -185,9 +184,10 @@ public class CookControl : MonoBehaviour
 			}
 			return false;
 		}
+
 		if(dryRun)
 		{
-			return true;
+			return station.GetComponent<Station>().WorkCanBeStarted(this);
 		}
 		else
 		{
@@ -199,7 +199,9 @@ public class CookControl : MonoBehaviour
 				StartCoroutine(WaitForWork(workTime));
 			}
 			return true;
+
 		}
+
 	}
 
 	IEnumerator WaitForWork(float waitTime)
