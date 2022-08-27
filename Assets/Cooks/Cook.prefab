@@ -950,7 +950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputThreshold: 0
-  speed: 0.025
+  speed: 3
   rightHand: {fileID: 5341329003921782901}
   grabRadius: 1.4
   activeIndicator: {fileID: 487350703226340807}

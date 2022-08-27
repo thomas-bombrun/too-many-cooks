@@ -65,7 +65,7 @@ public class CookControl : MonoBehaviour
 		if(Mathf.Abs(verticalInput) > inputThreshold || Mathf.Abs(horizontalInput) > inputThreshold)
 		{
 			animator.SetBool("isRunning", true);
-			Vector3 moveVector = new Vector3(verticalInput, 0, -horizontalInput) * speed;
+			Vector3 moveVector = new Vector3(verticalInput, 0, -horizontalInput) * speed * Time.deltaTime;
 			characterController.Move(moveVector);
 			transform.LookAt(this.transform.position + moveVector);
 		}
