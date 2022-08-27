@@ -58,7 +58,6 @@ public class CookControl : MonoBehaviour
 	{
 		HUD.Singleton.isWorkPossible = ClosestInLayer(8) != null;
 		GameObject closestIngredient = ClosestInLayer(6);
-		Debug.Log(closestIngredient + "," + grabbedIngredient);
 		HUD.Singleton.isGrabPossible = closestIngredient != null && grabbedIngredient == null;
 	}
 
@@ -86,7 +85,7 @@ public class CookControl : MonoBehaviour
 
 	void HandleGrab()
 	{
-		if(!Input.GetButtonDown("Fire1"))
+		if(!Input.GetButtonDown("Grab"))
 		{
 			return;
 		}

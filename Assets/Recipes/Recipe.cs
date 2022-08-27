@@ -47,7 +47,6 @@ public class Recipe : MonoBehaviour
 			if(currentStep == SpotsForIngredients.Count)
 			{
 				recipeDone.Invoke();
-				HUD.Singleton.DisplayText("Yeah !");
 				HUD.Singleton.AddScore();
 				isFlying = true;
 			}

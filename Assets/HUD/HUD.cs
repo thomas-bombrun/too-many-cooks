@@ -10,6 +10,7 @@ public class HUD : MonoBehaviour
 	[SerializeField] private TMPro.TMP_Text order;
 	[SerializeField] private TMPro.TMP_Text possibleActions;
 	public static HUD Singleton;
+	public bool isSwitchPossible;
 	public bool isWorkPossible;
 	public bool isGrabPossible;
 
@@ -29,11 +30,15 @@ public class HUD : MonoBehaviour
 		string actions = "";
 		if(isWorkPossible)
 		{
-			actions += "Press F to work\n";
+			actions += "Press O to work\n";
 		}
 		if(isGrabPossible)
 		{
-			actions += "Press ? to grab";
+			actions += "Press P to grab\n";
+		}
+		if(isSwitchPossible)
+		{
+			actions += "Press A to switch\n";
 		}
 		possibleActions.text = actions;
 	}

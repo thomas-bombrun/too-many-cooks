@@ -20,6 +20,7 @@ public class PlayerControl : MonoBehaviour
 
 	void Start()
 	{
+		HUD.Singleton.isSwitchPossible = cookSetups.Count > 1;
 		cooks = new List<CookControl>();
 		foreach(var cookSetup in cookSetups)
 		{

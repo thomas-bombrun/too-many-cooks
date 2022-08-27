@@ -24,7 +24,7 @@ public class TransformingStation : Station
 		}
 		else
 		{
-			HUD.Singleton.DisplayText("Wrong ingredient ! Expected " + prefabToTransform.name + " but got " + ingredient.name);
+			HUD.Singleton.DisplayText("Wrong ingredient !\nExpected " + prefabToTransform.name + " but got " + ingredient.name);
 			return false;
 		}
 	}

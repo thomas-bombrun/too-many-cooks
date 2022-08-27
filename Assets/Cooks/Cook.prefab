@@ -952,7 +952,7 @@ MonoBehaviour:
   inputThreshold: 0
   speed: 5
   rightHand: {fileID: 5341329003921782901}
-  grabRadius: 1.4
+  grabRadius: 1.2
   activeIndicator: {fileID: 487350703226340807}
   countdown: {fileID: 5241221758047158645}
   countdownImage: {fileID: 4887418584652548106}
