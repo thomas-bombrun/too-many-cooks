@@ -10,21 +10,19 @@ public class OrderBox : MonoBehaviour
 	private int nextRecipeIndex = 0;
 	public Transform recipePosition;
 	public Transform showCaseRecipePosition;
-
 	public Camera ShowcaseCamera;
 	public RawImage ShowcaseProjection;
+
+	private AudioSource newRecipeAudio;
 	void Start()
 	{
 		ShowcaseCamera.targetTexture = new RenderTexture(512, 512, 16);
+		newRecipeAudio = GetComponent<AudioSource>();
 		SpawnNextRecipe();
 	}
 
 	void Update()
 	{
-		if(recipePosition.childCount == 0)
-		{
-			SpawnNextRecipe();
-		}
 	}
 
 	void SpawnNextRecipe()
@@ -38,6 +36,7 @@ public class OrderBox : MonoBehaviour
 		}
 		GameObject recipe = Instantiate(recipePrefab, recipePosition);
 		recipe.GetComponent<Recipe>().recipeDone.AddListener(RecipeIsDone);
+		newRecipeAudio.Play();
 		// Showcase
 		GameObject recipeShowcase = Instantiate(recipePrefab, showCaseRecipePosition);
 		recipeShowcase.GetComponent<Recipe>().FillRecipe();
@@ -48,7 +47,7 @@ public class OrderBox : MonoBehaviour
 	{
 		if(nextRecipeIndex >= Recipes.Count)
 		{
-			this.gameObject.GetComponent<LevelManager>().LoadNextLevel();
+			LevelManager.LoadNextLevel();
 		}
 		else
 		{

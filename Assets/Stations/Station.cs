@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Station : MonoBehaviour
 {
+	protected AudioSource operatingAudio;
 	public float workDuration;
 	protected abstract void WorkDone(CookControl cook);
 	protected virtual bool WorkCanBeStarted(CookControl cook)
@@ -11,10 +12,20 @@ public abstract class Station : MonoBehaviour
 		return true;
 	}
 
+	public void Awake()
+	{
+		operatingAudio = GetComponent<AudioSource>();
+	}
+
 	public float Operate(CookControl cook)
 	{
 		if(WorkCanBeStarted(cook))
 		{
+			if(operatingAudio != null)
+			{
+				operatingAudio.loop = true;
+				operatingAudio.Play();
+			}
 			StartCoroutine(WaitForWork(cook));
 			return workDuration;
 		}
@@ -29,6 +40,10 @@ public abstract class Station : MonoBehaviour
 	private IEnumerator WaitForWork(CookControl cook)
 	{
 		yield return new WaitForSeconds(workDuration);
+		if(operatingAudio != null)
+		{
+			operatingAudio.Stop();
+		}
 		WorkDone(cook);
 	}
 }

@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class HUD : MonoBehaviour
 {
-	[SerializeField]
-	private TMPro.TMP_Text debugText;
-	[SerializeField]
-	private TMPro.TMP_Text scoreText;
-	[SerializeField]
-	private TMPro.TMP_Text order;
+	[SerializeField] private TMPro.TMP_Text debugText;
+	[SerializeField] private TMPro.TMP_Text scoreText;
+	[SerializeField] private TMPro.TMP_Text order;
 	public static HUD Singleton;
 
 	private int score = 0;

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(LevelManager))]
 public class Countdown : MonoBehaviour
 {
 	[SerializeField]
@@ -14,7 +13,7 @@ public class Countdown : MonoBehaviour
 		countdownText.text = "" + Mathf.Round(DurationInSeconds - elapsedTime);
 		if(elapsedTime > DurationInSeconds)
 		{
-			this.gameObject.GetComponent<LevelManager>().LoadGameOver();
+			LevelManager.LoadGameOver();
 		}
 	}
 }

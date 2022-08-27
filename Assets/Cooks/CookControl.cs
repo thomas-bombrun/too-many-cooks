@@ -15,6 +15,7 @@ public class CookControl : MonoBehaviour
 	public GameObject countdown;
 	public Image countdownImage;
 
+	private AudioSource wordDoneAudio;
 	private Animator animator;
 	private CharacterController characterController;
 	private GameObject grabbedIngredient;
@@ -27,6 +28,7 @@ public class CookControl : MonoBehaviour
 	}
 	void Start()
 	{
+		wordDoneAudio = GetComponent<AudioSource>();
 		animator = GetComponent<Animator>();
 		characterController = GetComponent<CharacterController>();
 		countdownImage.fillMethod = Image.FillMethod.Radial360;
@@ -159,10 +161,13 @@ public class CookControl : MonoBehaviour
 			HUD.Singleton.DisplayText("You can't do this task ! " + station.name + " is " + station.tag + " but cook is " + tag);
 			return;
 		}
-		animator.SetBool("isRunning", false);
-		animator.SetBool("isWorking", true);
 		float workTime = station.GetComponent<Station>().Operate(this);
-		StartCoroutine(WaitForWork(workTime));
+		if(workTime > 0f)
+		{
+			animator.SetBool("isRunning", false);
+			animator.SetBool("isWorking", true);
+			StartCoroutine(WaitForWork(workTime));
+		}
 	}
 
 	IEnumerator WaitForWork(float waitTime)
@@ -174,6 +179,7 @@ public class CookControl : MonoBehaviour
 			yield return 0; // wait 1 frame
 			countdownImage.fillAmount = (Time.time - startTime) / (waitTime);
 		}
+		wordDoneAudio.Play();
 		countdownImage.fillAmount = 0;
 		countdown.SetActive(false);
 		animator.SetBool("isWorking", false);

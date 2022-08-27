@@ -6,16 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-	public void LoadFirstLevel()
+	public static void LoadFirstLevel()
 	{
 		SceneManager.LoadScene("Level 1");
 	}
-	public void LoadNextLevel()
+	public static void LoadNextLevel()
 	{
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
-	public void LoadGameOver()
+	public static void LoadGameOver()
 	{
 		SceneManager.LoadScene("Game Over");
 	}

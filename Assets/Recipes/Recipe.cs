@@ -10,8 +10,13 @@ public class Recipe : MonoBehaviour
 
 	[SerializeField] private int currentStep;
 
-	public UnityEvent recipeDone;
+	[HideInInspector] public UnityEvent recipeDone;
+	private AudioSource ingredientAddedAudio;
 
+	void Awake()
+	{
+		ingredientAddedAudio = GetComponent<AudioSource>();
+	}
 
 	///<returns>Wheter the ingredient was accepted or not.</returns>
 	public bool AddIngredient(GameObject ingredient)
@@ -29,6 +34,10 @@ public class Recipe : MonoBehaviour
 				HUD.Singleton.DisplayText("Yeah !");
 				HUD.Singleton.AddScore();
 				Destroy(gameObject);
+			}
+			else
+			{
+				ingredientAddedAudio.Play();
 			}
 			return true;
 		}
