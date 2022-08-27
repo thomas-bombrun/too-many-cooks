@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c150c27b2c80d1469ee5d4f5ca63b5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workDuration: 1
+  workDuration: 3
   IngredientSpot: {fileID: 117979434162547752}
   possibleTransformations:
   - fromPrefab: {fileID: 717154241426821696, guid: a71227d67d588e54abe9dd28b2d53a94, type: 3}

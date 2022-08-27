@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f751b1f314dec4548853b8cfc018ef8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  workDuration: 1
+  workDuration: 5
   prefabToTransform: {fileID: 2728116430136449556, guid: 4cf85f48b1d409649984090c1e99959f, type: 3}
   prefabResult: {fileID: 1486702799407751546, guid: 9ace88532bf4bf1419fbd07ec0892583, type: 3}
 --- !u!65 &3578709707937062420

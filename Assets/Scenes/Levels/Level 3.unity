@@ -632,14 +632,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4165029103752369959, guid: 34af69583def86f45837022a67b3b8c3, type: 3}
-      propertyPath: m_fontSize
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4165029103752369959, guid: 34af69583def86f45837022a67b3b8c3, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 4165029104793637896, guid: 34af69583def86f45837022a67b3b8c3, type: 3}
       propertyPath: m_Name
       value: HUD
