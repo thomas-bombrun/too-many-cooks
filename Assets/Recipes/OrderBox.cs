@@ -29,8 +29,10 @@ public class OrderBox : MonoBehaviour
 		{
 			DestroyImmediate(showCaseRecipePosition.GetChild(0).gameObject); // If we "Destroy", the previous recipe is not yet deleted when we take the next screenshot
 		}
-		GameObject recipe = Instantiate(recipePrefab, recipePosition);
-		recipe.GetComponent<Recipe>().recipeDone.AddListener(RecipeIsDone);
+		GameObject recipeGO = Instantiate(recipePrefab, recipePosition);
+		Recipe recipe = recipeGO.GetComponent<Recipe>();
+		recipe.recipeDone.AddListener(RecipeIsDone);
+		recipe.addIngredient.AddListener(SetIngredientColorInShowcase);
 		audioSource.Play();
 		// Showcase
 		GameObject recipeShowcase = Instantiate(recipePrefab, showCaseRecipePosition);
@@ -39,6 +41,7 @@ public class OrderBox : MonoBehaviour
 		float recipeHeight = 0.0f;
 		float recipeWidth = 0.3f;
 		recipeShowcase.GetComponent<Recipe>().FillRecipe();
+<<<<<<< Updated upstream
 		int childIndex = 0;
 		foreach(Transform child in recipeShowcase.transform)
 		{
@@ -51,7 +54,36 @@ public class OrderBox : MonoBehaviour
 			recipeHeight += yDelta + 0.02f;
 		}
 		ShowcaseCamera.transform.LookAt(recipeCenterPosition);
+=======
+		if (recipeShowcase.transform.childCount > 1)
+		{
+			int childIndex = 0;
+			foreach (Transform child in recipeShowcase.transform) {
+				float xDelta = (2 * (childIndex % 2) - 1) * 0.08f;
+				float yDelta = childIndex * 0.05f;
+				child.position += new Vector3(0.0f, yDelta, xDelta);
+
+				recipeCenterPosition += child.position / recipeShowcase.transform.childCount;
+				recipeHeight += yDelta + 0.02f;
+
+				if (childIndex > 0)
+				{
+					foreach (Material childMaterial in child.GetComponentInChildren<MeshRenderer>().materials)
+					{
+						Color materialColor = childMaterial.color;
+						materialColor.a = 0.1f;
+						childMaterial.SetColor("_Color", materialColor);
+					}
+				}
+				childIndex++;
+
+			}
+		}
+		// ShowcaseCamera.transform.LookAt(recipeCenterPosition);
+>>>>>>> Stashed changes
 		ShowcaseCamera.orthographicSize = Mathf.Max(recipeHeight, recipeWidth);
+
+		SetIngredientColorInShowcase(0);
 		TakeScreenshot();
 	}
 
@@ -95,5 +127,40 @@ public class OrderBox : MonoBehaviour
 		RenderTexture.active = currentRT;
 
 		ShowcaseProjection.texture = image;
+		Debug.Log("Updated image");
 	}
+
+	private void SetIngredientColorInShowcase(int ingredientIndex)
+	{
+		Transform parent = showCaseRecipePosition.GetChild(0).transform;
+		if(ingredientIndex > 0)
+		{
+			Transform addedIngredient = parent.GetChild(ingredientIndex - 1);
+			foreach (Material childMaterial in addedIngredient.GetComponentInChildren<MeshRenderer>().materials)
+			{
+                childMaterial.DisableKeyword("_EMISSION");
+
+				Color materialColor = childMaterial.color;
+				materialColor.a = 1.0f;
+				childMaterial.SetColor("_Color", materialColor);
+			}
+		}
+		if(ingredientIndex < parent.childCount)
+		{
+			Transform nextIngredient = parent.GetChild(ingredientIndex);
+			foreach (Material childMaterial in nextIngredient.GetComponentInChildren<MeshRenderer>().materials)
+			{
+				Color materialColor = childMaterial.color;
+				materialColor.a = 1.0f;
+				childMaterial.SetColor("_Color", materialColor);
+
+                childMaterial.EnableKeyword("_EMISSION");
+				Color emissionColor = new Color(0.3f, 0.3f, 0.3f);
+                childMaterial.SetColor("_EmissionColor", emissionColor);
+			}
+		}
+
+		TakeScreenshot();
+	}
+
 }
