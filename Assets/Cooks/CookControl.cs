@@ -55,7 +55,7 @@ public class CookControl : MonoBehaviour
 
 	void CheckPossibleActions()
 	{
-		HUD.Singleton.isWorkPossible = ClosestInLayer(8) != null;
+		HUD.Singleton.isWorkPossible = HandleWork(dryRun: true);
 		GameObject closestIngredient = ClosestInLayer(6);
 		HUD.Singleton.isGrabPossible = closestIngredient != null && grabbedIngredient == null;
 	}
@@ -93,9 +93,13 @@ public class CookControl : MonoBehaviour
 			GameObject closestIngredient = ClosestInLayer(6); //layer 6 is Ingredients
 			if(closestIngredient != null)
 			{
+				if(closestIngredient.tag == "Untagged")
+				{
+					return;
+				}
 				if(closestIngredient.tag != tag)
 				{
-					HUD.Singleton.DisplayText("You can't grab that !\nIngredient is " + closestIngredient.tag + " but cook is " + tag);
+					HUD.Singleton.DisplayText("You can't grab that !\n" + closestIngredient.name + " is " + closestIngredient.tag + " but cook is " + tag);
 					return;
 				}
 				else
@@ -157,29 +161,41 @@ public class CookControl : MonoBehaviour
 		animator.SetBool("isCarrying", false);
 	}
 
-	void HandleWork()
+
+	bool HandleWork(bool dryRun = false)
 	{
-		if(!Input.GetButtonDown("Work"))
+		if(!dryRun && !Input.GetButtonDown("Work"))
 		{
-			return;
+			return false;
 		}
 		GameObject station = ClosestInLayer(8);
 		if(station == null)
 		{
 			Debug.Log("didn't find a station to work");
-			return;
+			return false;
 		}
 		if(station.tag != tag && station.tag != "Untagged")
 		{
-			HUD.Singleton.DisplayText("You can't do this task !\n" + station.name + " is " + station.tag + " but cook is " + tag);
-			return;
+			if(!dryRun)
+			{
+				HUD.Singleton.DisplayText("You can't do this task !\n" + station.name + " is " + station.tag + " but cook is " + tag);
+			}
+			return false;
 		}
-		float workTime = station.GetComponent<Station>().Operate(this);
-		if(workTime > 0f)
+		if(dryRun)
 		{
-			animator.SetBool("isRunning", false);
-			animator.SetBool("isWorking", true);
-			StartCoroutine(WaitForWork(workTime));
+			return true;
+		}
+		else
+		{
+			float workTime = station.GetComponent<Station>().Operate(this);
+			if(workTime > 0f)
+			{
+				animator.SetBool("isRunning", false);
+				animator.SetBool("isWorking", true);
+				StartCoroutine(WaitForWork(workTime));
+			}
+			return true;
 		}
 	}
 
