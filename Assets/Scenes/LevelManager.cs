@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 {
 	public static void LoadFirstLevel()
 	{
-		SceneManager.LoadScene("Level 1");
+		SceneManager.LoadScene("Intro - Level 0");
 	}
 	public static void LoadNextLevel()
 	{
