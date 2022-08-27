@@ -154,7 +154,7 @@ public class CookControl : MonoBehaviour
 			Debug.Log("didn't find a station to work");
 			return;
 		}
-		if(station.tag != tag)
+		if(station.tag != tag && station.tag != "Untagged")
 		{
 			HUD.Singleton.DisplayText("You can't do this task ! " + station.name + " is " + station.tag + " but cook is " + tag);
 			return;
