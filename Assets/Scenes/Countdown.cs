@@ -7,7 +7,7 @@ public class Countdown : MonoBehaviour
 	private TMPro.TMP_Text countdownText;
 	public float DurationInSeconds;
 	private float elapsedTime;
-	public static bool paused = true;
+	public static bool paused = false;
 	void Update()
 	{
 		if(!paused)

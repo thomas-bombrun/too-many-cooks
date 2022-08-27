@@ -60,7 +60,7 @@ public class Recipe : MonoBehaviour
 		}
 		else
 		{
-			HUD.Singleton.DisplayText("Wrong ingredient ! Expected " + PrefabIngredientsInOrder[currentStep].name + " but got " + ingredient.name);
+			HUD.Singleton.DisplayText("Wrong ingredient !\nExpected " + PrefabIngredientsInOrder[currentStep].name + " but got " + ingredient.name);
 			return false;
 		}
 	}

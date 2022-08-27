@@ -50,7 +50,16 @@ public class CookControl : MonoBehaviour
 			HandleMovement();
 			HandleGrab();
 			HandleWork();
+			CheckPossibleActions();
 		}
+	}
+
+	void CheckPossibleActions()
+	{
+		HUD.Singleton.isWorkPossible = ClosestInLayer(8) != null;
+		GameObject closestIngredient = ClosestInLayer(6);
+		Debug.Log(closestIngredient + "," + grabbedIngredient);
+		HUD.Singleton.isGrabPossible = closestIngredient != null && grabbedIngredient == null;
 	}
 
 	void HandleMovement()
@@ -88,7 +97,7 @@ public class CookControl : MonoBehaviour
 			{
 				if(closestIngredient.tag != tag)
 				{
-					HUD.Singleton.DisplayText("You can't grab that ! Ingredient is " + closestIngredient.tag + " but cook is " + tag);
+					HUD.Singleton.DisplayText("You can't grab that !\nIngredient is " + closestIngredient.tag + " but cook is " + tag);
 					return;
 				}
 				else
@@ -164,7 +173,7 @@ public class CookControl : MonoBehaviour
 		}
 		if(station.tag != tag && station.tag != "Untagged")
 		{
-			HUD.Singleton.DisplayText("You can't do this task ! " + station.name + " is " + station.tag + " but cook is " + tag);
+			HUD.Singleton.DisplayText("You can't do this task !\n" + station.name + " is " + station.tag + " but cook is " + tag);
 			return;
 		}
 		float workTime = station.GetComponent<Station>().Operate(this);
