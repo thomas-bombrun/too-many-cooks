@@ -11,6 +11,7 @@ public class Recipe : MonoBehaviour
 	[SerializeField] private int currentStep;
 
 	[HideInInspector] public UnityEvent recipeDone;
+	[HideInInspector] public UnityEvent<int> addIngredient;
 	private AudioSource ingredientAddedAudio;
 
 	public float flySpeed;
@@ -53,6 +54,7 @@ public class Recipe : MonoBehaviour
 			else
 			{
 				ingredientAddedAudio.Play();
+				addIngredient.Invoke(currentStep);
 			}
 			return true;
 		}
