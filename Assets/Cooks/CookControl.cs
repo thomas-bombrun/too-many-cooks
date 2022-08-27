@@ -22,6 +22,8 @@ public class CookControl : MonoBehaviour
 
 	private bool isActive = false;
 
+	public static bool isCheering;
+
 	void Awake()
 	{
 		activeIndicator.SetActive(false);
@@ -39,7 +41,11 @@ public class CookControl : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if(isActive)
+		if(isCheering)
+		{
+			animator.SetTrigger("cheer");
+		}
+		else if(isActive)
 		{
 			HandleMovement();
 			HandleGrab();

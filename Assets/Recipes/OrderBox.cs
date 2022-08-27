@@ -47,12 +47,19 @@ public class OrderBox : MonoBehaviour
 	{
 		if(nextRecipeIndex >= Recipes.Count)
 		{
-			LevelManager.LoadNextLevel();
+			CookControl.isCheering = true;
+			Invoke("LoadNextLevel", 2f);
 		}
 		else
 		{
 			SpawnNextRecipe();
 		}
+	}
+
+	void LoadNextLevel()
+	{
+		CookControl.isCheering = false;
+		LevelManager.LoadNextLevel();
 	}
 
 	private void TakeScreenshot()
