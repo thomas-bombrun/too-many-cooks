@@ -41,32 +41,29 @@ public class OrderBox : MonoBehaviour
 		float recipeHeight = 0.0f;
 		float recipeWidth = 0.3f;
 		recipeShowcase.GetComponent<Recipe>().FillRecipe();
-		if(recipeShowcase.transform.childCount > 1)
+		int childIndex = 0;
+		foreach(Transform child in recipeShowcase.transform)
 		{
-			int childIndex = 0;
-			foreach(Transform child in recipeShowcase.transform)
+			float xDelta = (recipeShowcase.transform.childCount > 1)? (2 * (childIndex % 2) - 1) * 0.08f: 0.0f;
+			float yDelta = childIndex * 0.05f;
+			child.position += new Vector3(0.0f, yDelta, xDelta);
+
+			recipeCenterPosition += child.position / recipeShowcase.transform.childCount;
+			recipeHeight += 0.07f;
+
+			if(childIndex > 0)
 			{
-				float xDelta = (2 * (childIndex % 2) - 1) * 0.08f;
-				float yDelta = childIndex * 0.05f;
-				child.position += new Vector3(0.0f, yDelta, xDelta);
-
-				recipeCenterPosition += child.position / recipeShowcase.transform.childCount;
-				recipeHeight += yDelta + 0.02f;
-
-				if(childIndex > 0)
+				foreach(Material childMaterial in child.GetComponentInChildren<MeshRenderer>().materials)
 				{
-					foreach(Material childMaterial in child.GetComponentInChildren<MeshRenderer>().materials)
-					{
-						Color materialColor = childMaterial.color;
-						materialColor.a = 0.1f;
-						childMaterial.SetColor("_Color", materialColor);
-					}
+					Color materialColor = childMaterial.color;
+					materialColor.a = 0.1f;
+					childMaterial.SetColor("_Color", materialColor);
 				}
-				childIndex++;
-
 			}
+			childIndex++;
+
 		}
-		// ShowcaseCamera.transform.LookAt(recipeCenterPosition);
+		ShowcaseCamera.transform.LookAt(recipeCenterPosition);
 		ShowcaseCamera.orthographicSize = Mathf.Max(recipeHeight, recipeWidth);
 
 		SetIngredientColorInShowcase(0);
