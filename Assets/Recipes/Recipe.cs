@@ -44,6 +44,7 @@ public class Recipe : MonoBehaviour
 			ingredient.transform.localRotation = Quaternion.identity;
 			ingredient.tag = "Untagged";
 			currentStep++;
+			addIngredient.Invoke(currentStep);
 			if(currentStep == SpotsForIngredients.Count)
 			{
 				recipeDone.Invoke();
@@ -53,7 +54,6 @@ public class Recipe : MonoBehaviour
 			else
 			{
 				ingredientAddedAudio.Play();
-				addIngredient.Invoke(currentStep);
 			}
 			return true;
 		}
