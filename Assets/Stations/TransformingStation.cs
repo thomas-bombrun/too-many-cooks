@@ -12,12 +12,10 @@ public class TransformingStation : Station
 		GameObject ingredient = cook.GetGrabbedIngredient();
 		if(ingredient == null)
 		{
-			Debug.Log("no ingredient to transform");
 			return false;
 		}
 		if(ingredient.name == prefabToTransform.name)
 		{
-			Debug.Log("transforming ingredient");
 			if(!dryRun)
 			{
 				cook.UnlinkGrabbedIngredient();

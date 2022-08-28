@@ -6,7 +6,6 @@ public class SpawningStation : Station
 
 	public override bool WorkCanBeStarted(CookControl cook, bool dryRun = true)
 	{
-		Debug.Log(cook.GetGrabbedIngredient());
 		return cook.GetGrabbedIngredient() == null;
 	}
 

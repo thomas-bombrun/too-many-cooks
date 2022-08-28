@@ -34,7 +34,7 @@ public class HUD : MonoBehaviour
 		}
 		if(isGrabPossible)
 		{
-			actions += "Press P to grab\n";
+			actions += "Press P to grab/drop\n";
 		}
 		if(isSwitchPossible)
 		{

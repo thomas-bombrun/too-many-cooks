@@ -56,8 +56,7 @@ public class CookControl : MonoBehaviour
 	void CheckPossibleActions()
 	{
 		HUD.Singleton.isWorkPossible = HandleWork(dryRun: true);
-		GameObject closestIngredient = ClosestInLayer(6);
-		HUD.Singleton.isGrabPossible = closestIngredient != null && grabbedIngredient == null;
+		HUD.Singleton.isGrabPossible = HandleGrab(dryRun: true);
 	}
 
 	void HandleMovement()
@@ -82,67 +81,92 @@ public class CookControl : MonoBehaviour
 		}
 	}
 
-	void HandleGrab()
+	bool HandleGrab(bool dryRun = false)
 	{
-		if(!Input.GetButtonDown("Grab"))
+		if(!dryRun && !Input.GetButtonDown("Grab"))
 		{
-			return;
+			return false;
 		}
 		if(grabbedIngredient == null)
 		{
 			GameObject closestIngredient = ClosestInLayer(6); //layer 6 is Ingredients
-			if(closestIngredient != null)
+			if(closestIngredient == null)
 			{
-				if(closestIngredient.tag == "Untagged")
-				{
-					return;
-				}
-				if(closestIngredient.tag != tag)
+				return false;
+			}
+
+			if(closestIngredient.tag == "Untagged")
+			{
+				return false;
+			}
+			if(closestIngredient.tag != tag)
+			{
+				if(!dryRun)
 				{
 					HUD.Singleton.DisplayText("You can't grab that !\n" + closestIngredient.name + " is " + closestIngredient.tag + " but cook is " + tag);
-					return;
 				}
-				else
-				{
-					Station activatedStation = closestIngredient.transform.parent.GetComponent<Station>();
-					if (activatedStation != null)
-						activatedStation.Operate(this);
-					GrabIngredient(closestIngredient);
-				}
+				return false;
 			}
+			if(!dryRun)
+			{
+				Station activatedStation = closestIngredient.transform.parent.GetComponent<Station>();
+				if(activatedStation != null)
+				{
+					Debug.Log("HEEEEEEEEEEEEEEEERE");
+					activatedStation.Operate(this);
+				}
+				GrabIngredient(closestIngredient);
+			}
+			return true;
 		}
 		else
 		{
 			GameObject plate = ClosestInLayer(7); //layer 7 is Plates
-			if(plate != null)
+			if(plate == null)
+			{
+				return false;
+			}
+			else
 			{
 				Recipe recipe = plate.GetComponent<Recipe>();
 				if(recipe != null)
 				{
-					bool ingredientwasAdded = recipe.AddIngredient(grabbedIngredient);
-					if(ingredientwasAdded)
+					if(!dryRun)
 					{
-						UnlinkGrabbedIngredient();
+						bool ingredientwasAdded = recipe.AddIngredient(grabbedIngredient);
+						if(ingredientwasAdded)
+						{
+							UnlinkGrabbedIngredient();
+						}
 					}
+					return true;
 				}
 				else
 				{
 					if(plate.transform.childCount > 0)
 					{
-						HUD.Singleton.DisplayText("Plate is already full !");
+						if(!dryRun)
+						{
+							HUD.Singleton.DisplayText("Plate is already full !");
+						}
+						return false;
 					}
 					else
 					{
-						grabbedIngredient.transform.parent = plate.transform;
-						grabbedIngredient.transform.localPosition = Vector3.zero;
-						grabbedIngredient.transform.localRotation = Quaternion.identity;
-						UnlinkGrabbedIngredient();
+						if(!dryRun)
+						{
+							grabbedIngredient.transform.parent = plate.transform;
+							grabbedIngredient.transform.localPosition = Vector3.zero;
+							grabbedIngredient.transform.localRotation = Quaternion.identity;
+							UnlinkGrabbedIngredient();
+						}
+						return true;
 					}
 				}
 			}
 		}
-	}
 
+	}
 	public void GrabIngredient(GameObject ingredient)
 	{
 		animator.SetBool("isCarrying", true);
