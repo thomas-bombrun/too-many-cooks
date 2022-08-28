@@ -43,6 +43,21 @@ public class HUD : MonoBehaviour
 		possibleActions.text = actions;
 	}
 
+
+	public static string PrettyName(string input)
+	{
+		return System.Text.RegularExpressions.Regex.Replace(input, "([A-Z])", " $1", System.Text.RegularExpressions.RegexOptions.Compiled).Trim().ToLower();
+	}
+	public static string UppercaseFirst(string s)
+	{
+		// Check for empty string.
+		if(string.IsNullOrEmpty(s))
+		{
+			return string.Empty;
+		}
+		// Return char and concat substring.
+		return char.ToUpper(s[0]) + s.Substring(1);
+	}
 	public void DisplayText(string textToDisplay)
 	{
 		debugText.text = textToDisplay;

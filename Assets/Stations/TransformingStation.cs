@@ -27,7 +27,7 @@ public class TransformingStation : Station
 		{
 			if(!dryRun)
 			{
-				HUD.Singleton.DisplayText("Wrong ingredient !\nExpected " + prefabToTransform.name + " but got " + ingredient.name);
+				HUD.Singleton.DisplayText("Wrong ingredient !\nExpected " + HUD.PrettyName(prefabToTransform.name) + " but got " + HUD.PrettyName(ingredient.name));
 			}
 			return false;
 		}

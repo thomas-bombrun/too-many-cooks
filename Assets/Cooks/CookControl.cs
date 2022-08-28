@@ -37,6 +37,7 @@ public class CookControl : MonoBehaviour
 		countdown.SetActive(false);
 	}
 
+
 	// Update is called once per frame
 	void Update()
 	{
@@ -103,7 +104,7 @@ public class CookControl : MonoBehaviour
 			{
 				if(!dryRun)
 				{
-					HUD.Singleton.DisplayText("You can't grab that !\n" + closestIngredient.name + " is " + closestIngredient.tag + " but cook is " + tag);
+					HUD.Singleton.DisplayText("You can't grab that !\n" + HUD.UppercaseFirst(HUD.PrettyName(closestIngredient.name)) + " is " + closestIngredient.tag.ToLower() + " but cook is " + tag.ToLower());
 				}
 				return false;
 			}
@@ -147,7 +148,7 @@ public class CookControl : MonoBehaviour
 					{
 						if(!dryRun)
 						{
-							HUD.Singleton.DisplayText("Plate is already full !");
+							HUD.Singleton.DisplayText("There is already something there");
 						}
 						return false;
 					}
@@ -204,7 +205,7 @@ public class CookControl : MonoBehaviour
 		{
 			if(!dryRun)
 			{
-				HUD.Singleton.DisplayText("You can't do this task !\n" + station.name + " is " + station.tag + " but cook is " + tag);
+				HUD.Singleton.DisplayText("You can't do this task !\n" + HUD.UppercaseFirst(HUD.PrettyName(station.name)) + " is " + station.tag.ToLower() + " but cook is " + tag.ToLower());
 			}
 			return false;
 		}
