@@ -781,7 +781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4165029104793637906, guid: 34af69583def86f45837022a67b3b8c3, type: 3}
       propertyPath: DurationInSeconds
-      value: 240
+      value: 360
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
