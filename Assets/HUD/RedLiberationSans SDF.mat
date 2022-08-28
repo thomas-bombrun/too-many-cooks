@@ -33,6 +33,6 @@ Material:
     - _BevelWidth: 0
     - _OutlineWidth: 0.16
     m_Colors:
-    - _FaceColor: {r: 0.8962264, g: 0, b: 0, a: 1}
+    - _FaceColor: {r: 0.46, g: 0.110400006, b: 0.110400006, a: 1}
     - _GlowColor: {r: 1, g: 0.3537736, b: 0.37652823, a: 0.59607846}
   m_BuildTextureStacks: []
